@@ -4,9 +4,22 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { create } from "domain";
 
+const crypto = require("crypto");
+
 const prisma = new PrismaClient();
 
-const crypto = require("crypto");
+async function main() {
+  const usuarios = await prisma.usuarios.findMany();
+  console.log(usuarios);
+}
+
+main()
+  .catch((e) => {
+    throw e;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 
 // Gerar uma chave JWT segura com 256 bits
 const jwtSecret = crypto.randomBytes(32).toString("hex");
